@@ -1,35 +1,49 @@
-import { User } from "../db/user.js";
+import { UserModel } from "../models/user.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne(email);
-  if (!user) {
-    throw new Error("User not found");
+    const user = await UserModel.findOne({ userEmail: email });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    if (!password === user.password) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Password incorrect" });
+    }
+
+    return res
+      .status(200)
+      .json({ success: true, message: "user logged in successfully", user });
+  } catch (error) {
+    console.error(error);
   }
-
-  if (!password === user.password) throw new Error("Password is incorrect");
-
-  return res
-    .status(200)
-    .json({ success: true, message: "user logged in successfully" });
 };
 
 const register = asyncHandler(async (req, res) => {
-  console.log("req:", req.body);
+  const payload = req.body;
 
-  const { email, password } = req.body;
-
-  const user = await User.findOne({ email });
+  const user = await UserModel.findOne({ email: payload.email });
   if (user) {
-    throw new Error("User exists, please try another email");
+    return res.status(409).json({
+      success: false,
+      message: "User exists with this email, please use another one",
+    });
   }
 
-  const newUser = await User.create(email, password);
+  const newUser = await UserModel.create(...payload);
 
   if (!newUser) {
-    throw new Error("Something went wrong please try again");
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong! please try again later",
+    });
   }
 
   return res
