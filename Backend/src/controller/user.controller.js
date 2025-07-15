@@ -37,7 +37,7 @@ const register = asyncHandler(async (req, res) => {
     });
   }
 
-  const newUser = await UserModel.create(...payload);
+  const newUser = await UserModel.create(payload);
 
   if (!newUser) {
     return res.status(500).json({

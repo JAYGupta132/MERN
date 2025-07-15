@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon"
+    "dev": "nodemon server.js"
   },
   "author": "Jay prakash Gupta",
   "license": "ISC",
@@ -15,6 +15,6 @@
     "dotenv": "^17.2.0",
     "express": "^4.21.2",
     "mongoose": "^8.8.4",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.10"
   }
 }
