@@ -4,41 +4,24 @@ const userSchema = new Schema({
   firstName: {
     type: String,
     required: true,
+    index: true,
   },
   lastName: {
     type: String,
     required: true,
+    index: true,
   },
   email: {
     type: String,
-    unique: true,
-    required: [true, "Email already taken"],
+    unique: [true, "Email already taken"],
+    required: true,
+    index: true,
   },
   password: {
     type: String,
     required: true,
   },
   contact: {
-    type: Number,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  city: {
-    type: String,
-    required: true,
-  },
-  state: {
-    type: String,
-    required: true,
-  },
-  country: {
-    type: String,
-    required: true,
-  },
-  zipcode: {
     type: Number,
     required: true,
   },

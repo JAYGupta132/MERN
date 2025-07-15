@@ -33,7 +33,7 @@ const register = asyncHandler(async (req, res) => {
   if (user) {
     return res.status(409).json({
       success: false,
-      message: "User exists with this email, please use another one",
+      message: "Email already exists",
     });
   }
 
