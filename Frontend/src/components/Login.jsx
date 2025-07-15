@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export default function Login() {
@@ -13,15 +13,12 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     const data = { email, password };
-    console.log("data:", data)
     try {
-      const response = await axios.post("http://localhost:4000/api/register", data);
-      // if (response.status === 200) navigate('/home')
-
-      console.log("Register:", response.data);
-      
+      const response = await axios.post(`http://localhost:4000/api/login`, data);
+      if (response.data) navigate('/home', response.data)
     } catch (error) {
-      setError(error.message)
+      setError(error.response.data.message)
+      navigate('/home')
     }
   };
   return (
@@ -42,8 +39,11 @@ export default function Login() {
         </div>
         {error}
         <Button variant="contained" type="submit">
-          Submit
+          Login
         </Button>
+        <Link to={"/register"}>
+        <div role="button">Signup?</div>
+        </Link>
       </Box>
     </>
   );
